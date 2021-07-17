@@ -1,12 +1,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
-<div class="container list-wrapper">
+<div class="container">
   <h1>Welcome</h1>
   <br>
   <%= form_tag(root_path, method: :get) do %>
-    <%= select_tag(:sort_by,options_for_select([["project_name", "project_name"],["category_name", "category_name"],["user_name", "user_name"]]), class: "form-select sort_by") %>
+    sort by:  <%= select_tag(:sort_by, options_for_select([["project_name", "project_name"],["category_name", "category_name"],["user_name", "user_name"], ['created_by', 'created_by']]), class: "form-select sort_by") %>
   <% end %>
 
-  <div class="container">
+  <div class="container list-wrapper">
     <div class="row">
       <div class="col">
         <div class="container">
@@ -18,7 +18,7 @@
                 <th class="th-sm">CategoryName</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="list-wrapper">
               <% @projects.each do |project| %>
                 <tr class="list-item">
                   <td><%= project.title%></td>
@@ -52,6 +52,16 @@
         var showFrom = perPage * (pageNumber - 1);
         var showTo = showFrom + perPage;
         items.hide().slice(showFrom, showTo).show();
+        return false;
       }
   });
+
+  $('#sort_by').change(function(){
+    sort_by =  $(this)
+    $.ajax({
+      url: "/?sort_by="+$(this).val(),
+    }).done(function(data) {
+      sort_by
+    });
+  })
 </script>
