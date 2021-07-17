@@ -3,14 +3,14 @@
   <h1>Welcome</h1>
   <br>
   <%= form_tag(root_path, method: :get) do %>
-    sort by:  <%= select_tag(:sort_by, options_for_select([["project_name", "project_name"],["category_name", "category_name"],["user_name", "user_name"], ['created_by', 'created_by']]), class: "form-select sort_by") %>
+    sort by:  <%= select_tag(:sort_by, options_for_select([["sort_by"],["project_name", "project_name"],["category_name", "category_name"],["user_name", "user_name"], ['recent_projects', 'recent_projects']]), class: "form-select sort_by") %>
   <% end %>
 
   <div class="container list-wrapper">
     <div class="row">
       <div class="col">
         <div class="container">
-          <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+          <table class="table table-striped table-bordered">
             <thead>
               <tr>
                 <th class="th-sm">Project Title</th>
@@ -18,14 +18,15 @@
                 <th class="th-sm">CategoryName</th>
               </tr>
             </thead>
-            <tbody class="list-wrapper">
-              <% @projects.each do |project| %>
+            <tbody class="list-wrapper project_list">
+              <%= render '/home/project_list' %>
+              <!-- <%# @projects.each do |project| %>
                 <tr class="list-item">
-                  <td><%= project.title%></td>
-                  <td><%= project.user.user_name%></td>
-                  <td><%= project.category.name%></td>
+                  <td><%#= project.title%></td>
+                  <td><%#= project.user.user_name%></td>
+                  <td><%#= project.category.name%></td>
                 </tr>
-              <%end%>
+              <%#end%> -->
             <tbody>
           </table>
         </div>
@@ -59,6 +60,7 @@
   $('#sort_by').change(function(){
     sort_by =  $(this)
     $.ajax({
+      type: "GET",
       url: "/?sort_by="+$(this).val(),
     }).done(function(data) {
       sort_by

@@ -1,0 +1,36 @@
+<% @projects.each do |project| %>
+  <tr class="list-item">
+    <td><%= project.title%></td>
+    <td><%= project.user.user_name%></td>
+    <td><%= project.category.name%></td>
+  </tr>
+<%end%>
+<!-- <script type="text/javascript">
+  var items = $(".list-wrapper .list-item");
+  var numItems = items.length;
+  var perPage = 2;
+
+  items.slice(perPage).hide();
+
+  $('#pagination-container').pagination({
+      items: numItems,
+      itemsOnPage: perPage,
+      prevText: "&laquo;",
+      nextText: "&raquo;",
+      onPageClick: function (pageNumber) {
+        var showFrom = perPage * (pageNumber - 1);
+        var showTo = showFrom + perPage;
+        items.hide().slice(showFrom, showTo).show();
+        return false;
+      }
+  });
+
+  $('#sort_by').change(function(){
+    sort_by =  $(this)
+    $.ajax({
+      url: "/?sort_by="+$(this).val(),
+    }).done(function(data) {
+      sort_by
+    });
+  })
+</script> -->
