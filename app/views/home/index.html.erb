@@ -1,0 +1,57 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
+<div class="container list-wrapper">
+  <h1>Welcome</h1>
+  <br>
+  <%= form_tag(root_path, method: :get) do %>
+    <%= select_tag(:sort_by,options_for_select([["project_name", "project_name"],["category_name", "category_name"],["user_name", "user_name"]]), class: "form-select sort_by") %>
+  <% end %>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="container">
+          <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th class="th-sm">Project Title</th>
+                <th class="th-sm">Username</th>
+                <th class="th-sm">CategoryName</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @projects.each do |project| %>
+                <tr class="list-item">
+                  <td><%= project.title%></td>
+                  <td><%= project.user.user_name%></td>
+                  <td><%= project.category.name%></td>
+                </tr>
+              <%end%>
+            <tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="pagination-container"></div>
+
+<script type="text/javascript">
+  var items = $(".list-wrapper .list-item");
+  var numItems = items.length;
+  var perPage = 2;
+
+  items.slice(perPage).hide();
+
+  $('#pagination-container').pagination({
+      items: numItems,
+      itemsOnPage: perPage,
+      prevText: "&laquo;",
+      nextText: "&raquo;",
+      onPageClick: function (pageNumber) {
+        var showFrom = perPage * (pageNumber - 1);
+        var showTo = showFrom + perPage;
+        items.hide().slice(showFrom, showTo).show();
+      }
+  });
+</script>
